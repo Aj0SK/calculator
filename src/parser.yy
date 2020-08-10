@@ -8,7 +8,11 @@
 
 %code requires {
   # include <string>
+  # include <iomanip>
   class driver;
+  class Variable;
+  class Int;
+  class Double;
 }
 
 // The parsing context.
@@ -21,6 +25,8 @@
 
 %code {
 # include "driver.hh"
+# include <iostream>
+# include <iomanip>
 }
 
 %define api.token.prefix {TOK_}
@@ -39,32 +45,31 @@
 %token <std::string> IDENTIFIER "identifier"
 %token <int> NATURAL "natural"
 %token <double> FLOATING "floating"
-%nterm <int> exp
+%nterm <std::unique_ptr<Variable> > exp
 
-%printer { yyo << $$; } <*>;
+%printer { yyo << std::fixed << std::setprecision(3) << "aa"; } <*>;
 
 %%
 %start unit;
-unit: assignments exp  { drv.result = $2; };
+unit: assignments exp { drv.result = $2->value(); };
 
 assignments:
   %empty                 {}
 | assignments assignment {};
 
 assignment:
-  "identifier" "=" exp { drv.variables[$1] = $3; };
+  "identifier" "=" "natural"  { drv.vars[$1] = std::unique_ptr<Variable> (new Int($3)); }
+| "identifier" "=" "floating" { drv.vars[$1] = std::unique_ptr<Variable> (new Double($3)); };
 
 %left "+" "-";
 %left "*" "/" "**";
+
 exp:
-  "natural"
-| "identifier"  { $$ = drv.variables[$1]; }
-| exp "+" exp   { $$ = $1 + $3; }
-| exp "-" exp   { $$ = $1 - $3; }
-| exp "*" exp   { $$ = $1 * $3; }
-| exp "/" exp   { $$ = $1 / $3; }
-| exp "**" exp   { $$ = 1; for(int i=0; i<$3; ++i) $$ *= $1; }
-| "(" exp ")"   { $$ = $2; }
+  "natural"     { $$ = std::unique_ptr<Variable>(new Int($1)); }
+| "floating"    { $$ = std::unique_ptr<Variable>(new Double($1)); }
+| "identifier"  { $$ = std::move(drv.vars[$1]); }
+| exp "+" exp   { $$ = *$1 + *$3; }
+| exp "-" exp   { $$ = *$1 - *$3; }
 %%
 
 void

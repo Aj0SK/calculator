@@ -2,6 +2,9 @@
 # define DRIVER_HH
 # include <string>
 # include <map>
+# include <utility>
+# include <memory>
+# include "Variable.h"
 # include "parser.hh"
 
 // Give Flex the prototype of yylex we want ...
@@ -16,9 +19,9 @@ class driver
 public:
   driver ();
 
-  std::map<std::string, int> variables;
+  std::unordered_map<std::string, std::unique_ptr<Variable> > vars;
 
-  int result;
+  double result;
 
   // Run the parser on file F.  Return 0 on success.
   int parse (const std::string& f);
