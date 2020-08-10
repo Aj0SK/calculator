@@ -37,7 +37,8 @@
 ;
 
 %token <std::string> IDENTIFIER "identifier"
-%token <int> NUMBER "number"
+%token <int> NATURAL "natural"
+%token <double> FLOATING "floating"
 %nterm <int> exp
 
 %printer { yyo << $$; } <*>;
@@ -56,7 +57,7 @@ assignment:
 %left "+" "-";
 %left "*" "/" "**";
 exp:
-  "number"
+  "natural"
 | "identifier"  { $$ = drv.variables[$1]; }
 | exp "+" exp   { $$ = $1 + $3; }
 | exp "-" exp   { $$ = $1 - $3; }

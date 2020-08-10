@@ -76,11 +76,14 @@
 %{
   // A number symbol corresponding to the value in S.
   yy::parser::symbol_type
-  make_NUMBER (const std::string &s, const yy::parser::location_type& loc);
+  make_NATURAL (const std::string &s, const yy::parser::location_type& loc);
+  yy::parser::symbol_type
+  make_FLOATING (const std::string &s, const yy::parser::location_type& loc);
 %}
 
 id    [a-zA-Z][a-zA-Z_0-9]*
 int   [0-9]+
+double [0-9]+\.[0-9]+
 blank [ \t\r]
 
 %{
@@ -104,9 +107,10 @@ blank [ \t\r]
 "**"       return yy::parser::make_DSTAR  (loc);
 "("        return yy::parser::make_LPAREN (loc);
 ")"        return yy::parser::make_RPAREN (loc);
-"="       return yy::parser::make_ASSIGN (loc);
+"="        return yy::parser::make_ASSIGN (loc);
 
-{int}      return make_NUMBER (yytext, loc);
+{double}   return make_FLOATING (yytext, loc);
+{int}      return make_NATURAL (yytext, loc);
 {id}       return yy::parser::make_IDENTIFIER (yytext, loc);
 .          {
              throw yy::parser::syntax_error
@@ -116,13 +120,21 @@ blank [ \t\r]
 %%
 
 yy::parser::symbol_type
-make_NUMBER (const std::string &s, const yy::parser::location_type& loc)
+make_NATURAL (const std::string &s, const yy::parser::location_type& loc)
 {
   errno = 0;
   long n = strtol (s.c_str(), NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
     throw yy::parser::syntax_error (loc, "integer is out of range: " + s);
-  return yy::parser::make_NUMBER ((int) n, loc);
+  return yy::parser::make_NATURAL ((int) n, loc);
+}
+
+yy::parser::symbol_type
+make_FLOATING (const std::string &s, const yy::parser::location_type& loc)
+{
+  errno = 0;
+  double n = strtod (s.c_str(), NULL);
+  return yy::parser::make_FLOATING ((double) n, loc);
 }
 
 void
