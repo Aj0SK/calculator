@@ -101,9 +101,10 @@ blank [ \t\r]
 "+"        return yy::parser::make_PLUS   (loc);
 "*"        return yy::parser::make_STAR   (loc);
 "/"        return yy::parser::make_SLASH  (loc);
+"**"       return yy::parser::make_DSTAR  (loc);
 "("        return yy::parser::make_LPAREN (loc);
 ")"        return yy::parser::make_RPAREN (loc);
-":="       return yy::parser::make_ASSIGN (loc);
+"="       return yy::parser::make_ASSIGN (loc);
 
 {int}      return make_NUMBER (yytext, loc);
 {id}       return yy::parser::make_IDENTIFIER (yytext, loc);

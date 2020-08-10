@@ -1,13 +1,16 @@
 CFLAGS = -Wall -O2 -std=c++17
-CC = g++
+CC = clang++
 BUILD = build
 SRC = src
 
 all: prepare demo
 
-prepare:
-	mkdir -p $(BUILD)
-	mkdir -p $(SRC)/generated
+clean:
+	rm -r -f $(BUILD) $(SRC)/generated
+
+prepare: clean
+	mkdir $(BUILD)
+	mkdir $(SRC)/generated
 
 demo: sample driver parser scanner
 	${CC} ${CFLAGS} -o $(BUILD)/calc++ $(BUILD)/calc++.o $(BUILD)/driver.o $(BUILD)/parser.o $(BUILD)/scanner.o

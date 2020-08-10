@@ -26,11 +26,12 @@
 %define api.token.prefix {TOK_}
 %token
   END  0  "end of file"
-  ASSIGN  ":="
+  ASSIGN  "="
   MINUS   "-"
   PLUS    "+"
   STAR    "*"
   SLASH   "/"
+  DSTAR   "**"
   LPAREN  "("
   RPAREN  ")"
 ;
@@ -50,10 +51,10 @@ assignments:
 | assignments assignment {};
 
 assignment:
-  "identifier" ":=" exp { drv.variables[$1] = $3; };
+  "identifier" "=" exp { drv.variables[$1] = $3; };
 
 %left "+" "-";
-%left "*" "/";
+%left "*" "/" "**";
 exp:
   "number"
 | "identifier"  { $$ = drv.variables[$1]; }
@@ -61,6 +62,7 @@ exp:
 | exp "-" exp   { $$ = $1 - $3; }
 | exp "*" exp   { $$ = $1 * $3; }
 | exp "/" exp   { $$ = $1 / $3; }
+| exp "**" exp   { $$ = 1; for(int i=0; i<$3; ++i) $$ *= $1; }
 | "(" exp ")"   { $$ = $2; }
 %%
 
