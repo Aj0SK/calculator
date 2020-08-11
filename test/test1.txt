@@ -1,3 +1,3 @@
 var1 = -15
 var2 = 50.9
-abs(var1) + abs(var2)
+abs(var1) + abs(var2) + sin(1.5) * 2.0

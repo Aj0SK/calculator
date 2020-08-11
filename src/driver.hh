@@ -6,7 +6,7 @@
 # include <memory>
 # include <cmath>
 # include <functional>
-# include "Variable.h"
+# include "variable.h"
 # include "parser.hh"
 
 // Give Flex the prototype of yylex we want ...

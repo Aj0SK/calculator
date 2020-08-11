@@ -12,8 +12,11 @@ prepare: clean
 	mkdir $(BUILD)
 	mkdir $(SRC)/generated
 
-demo: sample driver parser scanner
-	${CC} ${CFLAGS} -o $(BUILD)/calc++ $(BUILD)/calc++.o $(BUILD)/driver.o $(BUILD)/parser.o $(BUILD)/scanner.o
+variable.o:
+	${CC} ${CFLAGS} -c $(SRC)/variable.cpp -o $(BUILD)/variable.o
+
+demo: variable.o sample driver parser scanner
+	${CC} ${CFLAGS} -o $(BUILD)/calc++ $(BUILD)/variable.o $(BUILD)/calc++.o $(BUILD)/driver.o $(BUILD)/parser.o $(BUILD)/scanner.o
 
 sample: grammar
 	${CC} ${CFLAGS} -Wno-unused-result -DDG=1 -I$(SRC)/generated -c -o $(BUILD)/calc++.o $(SRC)/calc++.cc

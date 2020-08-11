@@ -7,9 +7,7 @@
 %define parse.assert
 
 %code requires {
-  # include <string>
   # include <iomanip>
-  # include <cmath>
   class driver;
   class Variable;
   class Int;
@@ -26,8 +24,6 @@
 
 %code {
 # include "driver.hh"
-# include <iostream>
-# include <iomanip>
 }
 
 %define api.token.prefix {TOK_}
@@ -48,8 +44,6 @@
 %token <int> NATURAL "natural"
 %token <double> FLOATING "floating"
 %nterm <std::unique_ptr<Variable> > exp
-
-%printer { yyo << std::fixed << std::setprecision(3) << "aa"; } <*>;
 
 %%
 %start unit;
