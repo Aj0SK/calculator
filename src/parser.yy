@@ -65,11 +65,14 @@ assignment:
 %left "*" "/" "**";
 
 exp:
-  "natural"     { $$ = std::unique_ptr<Variable>(new Int($1)); }
+"identifier"    { $$ = std::move(drv.vars[$1]); }
+| "natural"     { $$ = std::unique_ptr<Variable>(new Int($1)); }
 | "floating"    { $$ = std::unique_ptr<Variable>(new Double($1)); }
-| "identifier"  { $$ = std::move(drv.vars[$1]); }
 | exp "+" exp   { $$ = *$1 + *$3; }
 | exp "-" exp   { $$ = *$1 - *$3; }
+| exp "*" exp   { $$ = *$1 * *$3; }
+| exp "/" exp   { $$ = *$1 / *$3; }
+| "(" exp ")"   { $$ = std::move($2); }
 %%
 
 void
