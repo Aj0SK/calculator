@@ -10,6 +10,7 @@ driver::driver ()
     fn["sin"] = f_sin;
     fn["cos"] = f_cos;
     fn["tan"] = f_tan;
+    fn["abs"] = f_abs;
 }
 
 int

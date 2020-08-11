@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cmath>
+#include <cstdlib>
 
 class Int;
 class Double;
@@ -54,6 +55,8 @@ public:
     }
     virtual std::unique_ptr<Variable> operator/(const Int& other) const = 0;
     virtual std::unique_ptr<Variable> operator/(const Double& other) const = 0;
+
+    virtual std::unique_ptr<Variable> abs() const = 0;
 };
 class Int : public Variable
 {
@@ -119,6 +122,11 @@ public:
         return std::make_unique<Int>(other.val / val);
     }
     std::unique_ptr<Variable> operator/(const Double& other) const override;
+
+    virtual std::unique_ptr<Variable> abs() const override
+    {
+        return std::make_unique<Int>(std::abs(val));
+    }
 };
 class Double : public Variable
 {
@@ -194,6 +202,11 @@ public:
     {
         return std::make_unique<Double>(other.val / val);
     }
+
+    virtual std::unique_ptr<Variable> abs() const override
+    {
+        return std::make_unique<Double>(std::abs(val));
+    }
 };
 
 inline std::unique_ptr<Variable> Int::operator+(const Double& other) const
@@ -229,6 +242,11 @@ inline std::unique_ptr<Variable> f_cos(const Variable& x)
 inline std::unique_ptr<Variable> f_tan(const Variable& x)
 {
     return std::make_unique<Double>(tan(x.value()));
+}
+
+inline std::unique_ptr<Variable> f_abs(const Variable& x)
+{
+    return x.abs();
 }
 
 struct VariableHash

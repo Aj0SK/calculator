@@ -83,8 +83,8 @@
 
 constant  [A-Z][A-Z_0-9]*
 id        [a-z][a-z_0-9]*
-double    [0-9]+\.[0-9]+
-int       [0-9]+
+double    -?[0-9]+\.[0-9]+
+int       -?[0-9]+
 blank     [ \t\r]
 
 %{
