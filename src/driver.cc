@@ -7,10 +7,12 @@ driver::driver ()
     consts["PI"] = std::make_unique<Double>(3.14159265358);
     consts["E"] = std::make_unique<Double>(2.71828182845);
 
-    fn["sin"] = f_sin;
-    fn["cos"] = f_cos;
-    fn["tan"] = f_tan;
-    fn["abs"] = f_abs;
+    fn1["sin"] = f_sin;
+    fn1["cos"] = f_cos;
+    fn1["tan"] = f_tan;
+    fn1["abs"] = f_abs;
+
+    fn2["gcd"] = f_gcd;
 }
 
 int

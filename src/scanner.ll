@@ -109,6 +109,7 @@ blank     [ \t\r]
 "("        return yy::parser::make_LPAREN (loc);
 ")"        return yy::parser::make_RPAREN (loc);
 "="        return yy::parser::make_ASSIGN (loc);
+","        return yy::parser::make_DASH (loc);
 
 {double}   return make_FLOATING (yytext, loc);
 {int}      return make_NATURAL (yytext, loc);

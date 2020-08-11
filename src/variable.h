@@ -144,6 +144,8 @@ std::unique_ptr<Variable> f_cos(const Variable& x);
 std::unique_ptr<Variable> f_tan(const Variable& x);
 std::unique_ptr<Variable> f_abs(const Variable& x);
 
+std::unique_ptr<Variable> f_gcd(const Variable& a, const Variable& b);
+
 struct VariableHash;
 struct VariableEqual;
 

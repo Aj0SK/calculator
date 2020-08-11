@@ -22,7 +22,8 @@ public:
   driver ();
 
   std::unordered_map<std::string, std::unique_ptr<Variable> > vars, consts;
-  std::unordered_map<std::string, std::function<std::unique_ptr<Variable> (const Variable& x)> > fn;
+  std::unordered_map<std::string, std::function<std::unique_ptr<Variable> (const Variable& x)> > fn1;
+  std::unordered_map<std::string, std::function<std::unique_ptr<Variable> (const Variable& a, const Variable& b)> > fn2;
 
   double result;
 

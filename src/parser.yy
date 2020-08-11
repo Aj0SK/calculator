@@ -29,6 +29,7 @@
 %define api.token.prefix {TOK_}
 %token
   END  0  "end of file"
+  DASH  ","
   ASSIGN  "="
   MINUS   "-"
   PLUS    "+"
@@ -70,7 +71,8 @@ exp:
 | exp "*" exp   { $$ = *$1 * *$3; }
 | exp "/" exp   { $$ = *$1 / *$3; }
 | "(" exp ")"   { $$ = std::move($2); }
-| "identifier" "(" exp ")"  { $$ = drv.fn[$1](*$3); }
+| "identifier" "(" exp ")"  { $$ = drv.fn1[$1](*$3); }
+| "identifier" "(" exp "," exp ")"  { $$ = drv.fn2[$1](*$3, *$5); }
 %%
 
 void

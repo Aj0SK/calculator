@@ -1,5 +1,9 @@
 #include "variable.h"
 
+#include <algorithm>
+
+using std::swap;
+
 std::unique_ptr<Variable> Int::operator+(const Variable& other) const
 {
     return other + *this;
@@ -155,4 +159,15 @@ std::unique_ptr<Variable> f_tan(const Variable& x)
 std::unique_ptr<Variable> f_abs(const Variable& x)
 {
     return x.abs();
+}
+
+std::unique_ptr<Variable> f_gcd(const Variable& a, const Variable& b)
+{
+    int x = static_cast<int>(a.value()), y = static_cast<int>(b.value());
+    while(y != 0)
+    {
+        x %= y;
+        swap(x, y);
+    }
+    return std::make_unique<Int>(x);
 }
