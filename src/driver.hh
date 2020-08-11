@@ -19,7 +19,7 @@ class driver
 public:
   driver ();
 
-  std::unordered_map<std::string, std::unique_ptr<Variable> > vars;
+  std::unordered_map<std::string, std::unique_ptr<Variable> > vars, consts;
 
   double result;
 

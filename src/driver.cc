@@ -2,7 +2,11 @@
 #include "parser.hh"
 
 driver::driver ()
-  : trace_parsing (false), trace_scanning (false) {}
+  : trace_parsing (false), trace_scanning (false)
+{
+    consts["PI"] = std::unique_ptr<Variable> (new Double(3.14159265358));
+    consts["E"] = std::unique_ptr<Variable> (new Double(2.71828182845));
+}
 
 int
 driver::parse (const std::string &f)

@@ -53,18 +53,21 @@ public:
 };
 class Int : public Variable
 {
+private:
     int val;
+
 public:
     Int(int x) : val(x) {};
-    Int(std::string x) : val(stoi(x)) {};
+    Int(const std::string& x) : val(stoi(x)) {};
     ~Int() {};
-    void print(std::ostream& where) const override {where << std::to_string(val);};
+
+    double value() const override { return static_cast<double>(val); }
+
+    void print(std::ostream& out) const override {out << std::to_string(val);};
 
     bool equal(const Variable& p) const override { return *this == dynamic_cast<const Int&>(p); }
     bool operator==(const Int& other) const { return other.val == this->val; }
     size_t hash_self() const override { return std::hash<double>{}(static_cast<double>(this->val)); }
-
-    double value() const override { return static_cast<double>(val); }
 
     Int& operator=(Int other)
     {
@@ -115,18 +118,20 @@ public:
 };
 class Double : public Variable
 {
+private:
     double val;
+
 public:
     Double(double x) : val(x) {};
-    Double(std::string x) : val(stod(x)) {};
+    Double(const std::string& x) : val(stod(x)) {};
     ~Double() {};
-    void print(std::ostream& where) const override {where << std::to_string(val);};
+    void print(std::ostream& out) const override {out << std::to_string(val);};
+
+    double value() const override { return val; }
 
     bool equal(const Variable& p) const override { return *this == dynamic_cast<const Double &>(p); }
     bool operator==(const Double& other) const { return other.val == this->val;}
     size_t hash_self() const override { return std::hash<double>{}(this->val); }
-
-    double value() const override { return val; }
 
     Double& operator=(Double other)
     {

@@ -42,6 +42,7 @@
   RPAREN  ")"
 ;
 
+%token <std::string> CONSTANT "constant"
 %token <std::string> IDENTIFIER "identifier"
 %token <int> NATURAL "natural"
 %token <double> FLOATING "floating"
@@ -65,7 +66,8 @@ assignment:
 %left "*" "/" "**";
 
 exp:
-"identifier"    { $$ = std::move(drv.vars[$1]); }
+  "identifier"  { $$ = std::move(drv.vars[$1]); }
+| "constant"    { $$ = std::move(drv.consts[$1]); }
 | "natural"     { $$ = std::unique_ptr<Variable>(new Int($1)); }
 | "floating"    { $$ = std::unique_ptr<Variable>(new Double($1)); }
 | exp "+" exp   { $$ = *$1 + *$3; }

@@ -81,10 +81,11 @@
   make_FLOATING (const std::string &s, const yy::parser::location_type& loc);
 %}
 
-id    [a-zA-Z][a-zA-Z_0-9]*
-double [0-9]+\.[0-9]+
-int   [0-9]+
-blank [ \t\r]
+constant  [A-Z][A-Z_0-9]*
+id        [a-z][a-z_0-9]*
+double    [0-9]+\.[0-9]+
+int       [0-9]+
+blank     [ \t\r]
 
 %{
   // Code run each time a pattern is matched.
@@ -111,6 +112,7 @@ blank [ \t\r]
 
 {double}   return make_FLOATING (yytext, loc);
 {int}      return make_NATURAL (yytext, loc);
+{constant} return yy::parser::make_CONSTANT (yytext, loc);
 {id}       return yy::parser::make_IDENTIFIER (yytext, loc);
 .          {
              throw yy::parser::syntax_error
