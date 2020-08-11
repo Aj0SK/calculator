@@ -9,6 +9,7 @@
 %code requires {
   # include <string>
   # include <iomanip>
+  # include <cmath>
   class driver;
   class Variable;
   class Int;
@@ -59,8 +60,8 @@ assignments:
 | assignments assignment {};
 
 assignment:
-  "identifier" "=" "natural"  { drv.vars[$1] = std::unique_ptr<Variable> (new Int($3)); }
-| "identifier" "=" "floating" { drv.vars[$1] = std::unique_ptr<Variable> (new Double($3)); };
+  "identifier" "=" "natural"  { drv.vars[$1] = std::make_unique<Int>($3); }
+| "identifier" "=" "floating" { drv.vars[$1] = std::make_unique<Double>($3); };
 
 %left "+" "-";
 %left "*" "/" "**";
@@ -68,13 +69,14 @@ assignment:
 exp:
   "identifier"  { $$ = std::move(drv.vars[$1]); }
 | "constant"    { $$ = std::move(drv.consts[$1]); }
-| "natural"     { $$ = std::unique_ptr<Variable>(new Int($1)); }
-| "floating"    { $$ = std::unique_ptr<Variable>(new Double($1)); }
+| "natural"     { $$ = std::make_unique<Int>($1); }
+| "floating"    { $$ = std::make_unique<Double>($1); }
 | exp "+" exp   { $$ = *$1 + *$3; }
 | exp "-" exp   { $$ = *$1 - *$3; }
 | exp "*" exp   { $$ = *$1 * *$3; }
 | exp "/" exp   { $$ = *$1 / *$3; }
 | "(" exp ")"   { $$ = std::move($2); }
+| "identifier" "(" exp ")"  { $$ = drv.fn[$1](*$3); }
 %%
 
 void

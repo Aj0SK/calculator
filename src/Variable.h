@@ -1,4 +1,8 @@
+#ifndef VARIABLE_H
+#define VARIABLE_H
+
 #include <string>
+#include <cmath>
 
 class Int;
 class Double;
@@ -212,6 +216,21 @@ inline std::unique_ptr<Variable> Int::operator/(const Double& other) const
     return std::make_unique<Double>(other.value() / value());
 }
 
+inline std::unique_ptr<Variable> f_sin(const Variable& x)
+{
+    return std::make_unique<Double>(sin(x.value()));
+}
+
+inline std::unique_ptr<Variable> f_cos(const Variable& x)
+{
+    return std::make_unique<Double>(cos(x.value()));
+}
+
+inline std::unique_ptr<Variable> f_tan(const Variable& x)
+{
+    return std::make_unique<Double>(tan(x.value()));
+}
+
 struct VariableHash
 {
     size_t operator()(const Variable * const p) const
@@ -227,3 +246,5 @@ struct VariableEqual
         return p->equal(*q);
     }
 };
+
+#endif

@@ -4,8 +4,12 @@
 driver::driver ()
   : trace_parsing (false), trace_scanning (false)
 {
-    consts["PI"] = std::unique_ptr<Variable> (new Double(3.14159265358));
-    consts["E"] = std::unique_ptr<Variable> (new Double(2.71828182845));
+    consts["PI"] = std::make_unique<Double>(3.14159265358);
+    consts["E"] = std::make_unique<Double>(2.71828182845);
+
+    fn["sin"] = f_sin;
+    fn["cos"] = f_cos;
+    fn["tan"] = f_tan;
 }
 
 int

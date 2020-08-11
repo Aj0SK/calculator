@@ -4,6 +4,8 @@
 # include <unordered_map>
 # include <utility>
 # include <memory>
+# include <cmath>
+# include <functional>
 # include "Variable.h"
 # include "parser.hh"
 
@@ -20,6 +22,7 @@ public:
   driver ();
 
   std::unordered_map<std::string, std::unique_ptr<Variable> > vars, consts;
+  std::unordered_map<std::string, std::function<std::unique_ptr<Variable> (const Variable& x)> > fn;
 
   double result;
 
