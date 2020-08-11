@@ -59,7 +59,7 @@ public:
 
     std::unique_ptr<Variable> operator+(const Variable& other) const override
     {
-        return other+*this;
+        return other + *this;
     }
     std::unique_ptr<Variable> operator+(const Int& other) const override
     {
@@ -100,7 +100,7 @@ public:
 
     std::unique_ptr<Variable> operator+(const Variable& other) const override
     {
-        return other+*this;
+        return other + *this;
     }
     std::unique_ptr<Variable> operator+(const Int& other) const override
     {
@@ -108,7 +108,7 @@ public:
     }
     std::unique_ptr<Variable> operator+(const Double& other) const override
     {
-        return std::make_unique<Int>(val + other.val);
+        return std::make_unique<Double>(val + other.val);
     }
     std::unique_ptr<Variable> operator-(const Variable& other) const override
     {
@@ -120,13 +120,13 @@ public:
     }
     std::unique_ptr<Variable> SubstractFrom(const Double& other) const override
     {
-        return std::make_unique<Int>(other.val - val);
+        return std::make_unique<Double>(other.val - val);
     }
 };
 
 inline std::unique_ptr<Variable> Int::operator+(const Double& other) const
 {
-    return std::make_unique<Double>(val + other.value());
+    return std::make_unique<Double>(value() + other.value());
 }
 
 inline std::unique_ptr<Variable> Int::SubstractFrom(const Double& other) const
