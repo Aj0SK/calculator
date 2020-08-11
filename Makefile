@@ -12,7 +12,7 @@ TESTS = sample1_unittest
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h $(GTEST_DIR)/include/gtest/internal/*.h
 GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
-test: prepare_test $(TESTS)
+test: calculator prepare_test $(TESTS)
 
 prepare_test: clean_test
 	mkdir $(USER_DIR)
@@ -32,7 +32,7 @@ gtest.a : gtest-all.o
 gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $(USER_DIR)/$@ $(USER_DIR)/gtest-all.o $(USER_DIR)/gtest_main.o
 
-sample1_unittest.o : $(USER_TEST_DIR)/sample1_unittest.cpp $(GTEST_HEADERS) demo
+sample1_unittest.o : $(USER_TEST_DIR)/sample1_unittest.cpp $(GTEST_HEADERS)
 	$(CC) $(CPPFLAGS) $(CXXFLAGS) -I$(SRC) -I$(SRC)/generated -c $(USER_TEST_DIR)/sample1_unittest.cpp -o $(USER_DIR)/sample1_unittest.o
 
 sample1_unittest : sample1_unittest.o gtest_main.a
