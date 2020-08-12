@@ -83,8 +83,8 @@
 
 constant  [A-Z][A-Z_0-9]*
 id        [a-z][a-z_0-9]*
-double    -?[0-9]+\.[0-9]+
-int       -?[0-9]+
+double    [0-9]+\.[0-9]+
+int       [0-9]+
 blank     [ \t\r]
 
 %{
@@ -143,10 +143,14 @@ make_FLOATING (const std::string &s, const yy::parser::location_type& loc)
 void
 driver::scan_begin ()
 {
-  yy_flex_debug = trace_scanning;
-  if (file.empty () || file == "-")
-    yyin = stdin;
-  else if (!(yyin = fopen (file.c_str (), "r")))
+    yy_flex_debug = trace_scanning;
+    if (file == "-") yyin = stdin;
+    else if (file.empty ())
+    {
+        yyin = stdin;
+        yy_switch_to_buffer(yy_scan_string(input.c_str()));
+    }
+    else if (!(yyin = fopen (file.c_str (), "r")))
     {
       std::cerr << "cannot open " << file << ": " << strerror(errno) << '\n';
       exit (EXIT_FAILURE);
@@ -156,5 +160,5 @@ driver::scan_begin ()
 void
 driver::scan_end ()
 {
-  fclose (yyin);
+    if (!file.empty()) fclose (yyin);
 }

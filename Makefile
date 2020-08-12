@@ -14,8 +14,8 @@ GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
 test: calculator prepare_test $(TESTS)
 
-prepare_test: clean_test
-	mkdir $(USER_DIR)
+prepare_test:
+	mkdir -p $(USER_DIR)
 
 clean_test:
 	rm -r -f $(TESTS) $(USER_DIR)
@@ -43,9 +43,9 @@ all: prepare demo
 clean:
 	rm -r -f $(BUILD) $(SRC)/generated
 
-prepare: clean
-	mkdir $(BUILD)
-	mkdir $(SRC)/generated
+prepare:
+	mkdir -p $(BUILD)
+	mkdir -p $(SRC)/generated
 
 demo: sample calculator
 	${CC} ${CFLAGS} -o $(BUILD)/calc++ $(BUILD)/variable.o $(BUILD)/calc++.o $(BUILD)/driver.o $(BUILD)/parser.o $(BUILD)/scanner.o
@@ -53,7 +53,7 @@ demo: sample calculator
 sample: grammar
 	${CC} ${CFLAGS} -Wno-unused-result -DDG=1 -I$(SRC)/generated -c -o $(BUILD)/calc++.o $(SRC)/calc++.cc
 
-calculator: driver scanner parser variable.o 
+calculator: prepare grammar scanner parser driver variable.o
 
 variable.o:
 	${CC} ${CFLAGS} -Wno-unused-result -DDG=1 -c $(SRC)/variable.cpp -o $(BUILD)/variable.o
@@ -61,7 +61,7 @@ variable.o:
 parser: grammar
 	${CC} ${CFLAGS} -Wno-unused-result -DDG=1 -I$(SRC) -I$(SRC)/generated -c -o $(BUILD)/parser.o $(SRC)/generated/parser.cc
 
-driver:
+driver: parser
 	${CC} ${CFLAGS} -Wno-unused-result -DDG=1 -I$(SRC)/generated -c -o $(BUILD)/driver.o $(SRC)/driver.cc
 
 scanner:

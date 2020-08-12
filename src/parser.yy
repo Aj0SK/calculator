@@ -71,6 +71,8 @@ exp:
 | exp "*" exp   { $$ = *$1 * *$3; }
 | exp "/" exp   { $$ = *$1 / *$3; }
 | "(" exp ")"   { $$ = std::move($2); }
+| "(" "-" "natural" ")"     { $$ = std::make_unique<Int>(-$3); }
+| "(" "-" "floating" ")"     { $$ = std::make_unique<Double>(-$3); }
 | "identifier" "(" exp ")"  { $$ = drv.fn1[$1](*$3); }
 | "identifier" "(" exp "," exp ")"  { $$ = drv.fn2[$1](*$3, *$5); }
 %%

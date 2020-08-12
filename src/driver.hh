@@ -10,8 +10,7 @@
 # include "parser.hh"
 
 // Give Flex the prototype of yylex we want ...
-# define YY_DECL \
-  yy::parser::symbol_type yylex (driver& drv)
+# define YY_DECL yy::parser::symbol_type yylex (driver& drv)
 // ... and declare it for the parser's sake.
 YY_DECL;
 
@@ -28,9 +27,11 @@ public:
   double result;
 
   // Run the parser on file F.  Return 0 on success.
-  int parse (const std::string& f);
+  int parse_file (const std::string& f);
+  int parse_string (const std::string& s);
   // The name of the file being parsed.
   std::string file;
+  std::string input;
   // Whether to generate parser debug traces.
   bool trace_parsing;
 
