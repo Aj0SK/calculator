@@ -47,7 +47,7 @@ prepare:
 	mkdir -p $(BUILD)
 	mkdir -p $(SRC)/generated
 
-demo: sample calculator
+demo: prepare sample calculator
 	${CC} ${CFLAGS} -o $(BUILD)/calc++ $(BUILD)/variable.o $(BUILD)/calc++.o $(BUILD)/driver.o $(BUILD)/parser.o $(BUILD)/scanner.o
 
 sample: grammar
