@@ -48,7 +48,7 @@
 
 %%
 %start unit;
-unit: assignments exp { drv.result = $2->value(); };
+unit: assignments exp { drv.result = std::move($2); };
 
 assignments:
   %empty                 {}

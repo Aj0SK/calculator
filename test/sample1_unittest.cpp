@@ -7,7 +7,7 @@ void test_inputs(const std::vector<std::pair<std::string, double> >& tests)
     for(const auto& test : tests)
     {
         drv.parse_string (test.first);
-        EXPECT_EQ(drv.result, test.second);
+        EXPECT_EQ(drv.result->value(), test.second);
     }
 }
 

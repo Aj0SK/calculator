@@ -24,7 +24,7 @@ public:
   std::unordered_map<std::string, std::function<std::unique_ptr<Variable> (const Variable& x)> > fn1;
   std::unordered_map<std::string, std::function<std::unique_ptr<Variable> (const Variable& a, const Variable& b)> > fn2;
 
-  double result;
+  std::unique_ptr<Variable> result;
 
   // Run the parser on file F.  Return 0 on success.
   int parse_file (const std::string& f);

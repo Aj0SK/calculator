@@ -12,7 +12,7 @@ main (int argc, char *argv[])
     else if (argv[i] == std::string ("-s"))
       drv.trace_scanning = true;
     else if (!drv.parse_file (argv[i]))
-      std::cout << "Result is " << drv.result << '\n';
+      std::cout << "Result is " << drv.result->value() << '\n';
     else
       res = 1;
   return res;

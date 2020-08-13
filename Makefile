@@ -7,10 +7,12 @@ GTEST_DIR = lib/googletest/googletest
 USER_DIR = build_test
 USER_TEST_DIR = test
 CPPFLAGS += -isystem $(GTEST_DIR)/include
-CXXFLAGS += -g -Wall -Wextra -pthread
+CXXFLAGS += -std=c++17 -g -Wall -Wextra -pthread
 TESTS = sample1_unittest
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h $(GTEST_DIR)/include/gtest/internal/*.h
 GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
+
+all: prepare demo
 
 test: calculator prepare_test $(TESTS)
 
@@ -37,8 +39,6 @@ sample1_unittest.o : $(USER_TEST_DIR)/sample1_unittest.cpp $(GTEST_HEADERS)
 
 sample1_unittest : sample1_unittest.o gtest_main.a
 	$(CC) $(CPPFLAGS) $(CXXFLAGS) -I/$(SRC) -lpthread $(USER_DIR)/sample1_unittest.o $(USER_DIR)/gtest_main.a -o $(USER_DIR)/$@ $(BUILD)/variable.o $(BUILD)/driver.o $(BUILD)/parser.o $(BUILD)/scanner.o
-
-all: prepare demo
 
 clean:
 	rm -r -f $(BUILD) $(SRC)/generated
